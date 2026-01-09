@@ -4,9 +4,12 @@ import InputField from "@/components/forms/InputField";
 import {useForm} from "react-hook-form";
 import {Button} from "@/components/ui/button";
 import FooterLink from "@/components/forms/FooterLink";
+import {signInWithEmail} from "@/lib/actions/auth.actions";
+import {useRouter} from "next/navigation";
+import {toast} from "sonner";
 
 const SignIn = () => {
-
+    const router = useRouter()
     const {
         register,
         handleSubmit,
@@ -16,13 +19,26 @@ const SignIn = () => {
         defaultValues: {
             email: '',
             password: ''
-        }
+        },
+        mode: 'onBlur',
     });
     const onSubmit = async (data: SignInFormData) => {
         try {
-            console.log(data)
-        } catch (error) {
-            console.error(error);
+            // console.log(data);
+            const result = await signInWithEmail(data);
+            if (result?.success) {
+                router.push('/');
+            } else {
+                console.log(result)
+                toast.error('Sign in failed', {
+                    description: result?.error
+                })
+            }
+        } catch (e) {
+            console.error(e);
+            toast.error('Sign in failed', {
+                description: e instanceof Error ? e.message : 'Failed to sign in.'
+            })
         }
     }
     return (
@@ -30,7 +46,7 @@ const SignIn = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 <h1 className='form-title'>
                     Log in to your Account </h1>
-                <InputField name={'Email'}
+                <InputField name={'email'}
                             label={'Email'}
                             register={register}
                             placeholder="contact@sarthaksarangi.com"
@@ -41,7 +57,7 @@ const SignIn = () => {
                                 message: 'Email address is required'
                             }}
                 />
-                <InputField name={'Password'}
+                <InputField name={'password'}
                             label={'Password'}
                             placeholder={'Enter a strong password'}
                             register={register}

@@ -23,17 +23,15 @@ import {useRouter} from "next/navigation";
 import {Button} from "@/components/ui/button";
 import {LogOut} from "lucide-react";
 import NavItems from "@/components/NavItems";
+import {signOut} from "@/lib/actions/auth.actions";
 
-const UserDropdown = () => {
+const UserDropdown = ({user}: { user: User }) => {
     const router = useRouter();
-    const handleSignout = async () => {
+    const handleSignOut = async () => {
+        await signOut();
         router.push('/sign-in')
     }
 
-    const user = {
-        name: 'jhon',
-        email: 'sarthaksarangi@email.com'
-    }
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -46,11 +44,11 @@ const UserDropdown = () => {
                             alt="@evilrabbit"
                         />
                         <AvatarFallback
-                            className='bg-yellow-500 text-yellow-500 text-sm font-bold'>{user.name[0]}</AvatarFallback>
+                            className='bg-yellow-500 text-yellow-500 text-sm font-bold'>{user?.name[0]}</AvatarFallback>
                     </Avatar>
                     <div className="hidden md:flex flex-col items-start ">
                         <span className='text-base font-medium text-gray-400'>
-                            {user.name}
+                            {user?.name}
                         </span>
                     </div>
                 </Button>
@@ -77,7 +75,7 @@ const UserDropdown = () => {
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className='bg-gray-600'/>
-                <DropdownMenuItem onClick={() => handleSignout()}
+                <DropdownMenuItem onClick={() => handleSignOut()}
                                   className='text-gray-100 text-md font-medium focus:text-yellow-500 focus:bg-transparent transition-colors cursor-pointer'>
                     <LogOut className='h-4 w-4 mr-2 hidden sm:block'/>
                     Logout
