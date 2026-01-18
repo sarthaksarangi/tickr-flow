@@ -6,7 +6,6 @@ dotenv.config();
 
 async function testConnection() {
     console.log('🧪 Testing MongoDB connection...\n');
-    console.log(process.env.MONGODB_URI);
 
     try {
         // Test 1: Initial connection
