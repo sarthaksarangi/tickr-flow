@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import {WELCOME_EMAIL_TEMPLATE} from "@/lib/nodemailer/templates";
+import {NEWS_SUMMARY_EMAIL_TEMPLATE, WELCOME_EMAIL_TEMPLATE} from "@/lib/nodemailer/templates";
+import {NEWS_SUMMARY_EMAIL_PROMPT} from "@/lib/inngest/prompts";
 
 dotenv.config();
 export const transporter = nodemailer.createTransport(({
@@ -23,6 +24,26 @@ export const sendWelcomeEmail = async ({email, name, intro}: WelcomeEmailData) =
         text: 'Thanks for joining Tickrflow',
         html: htmlTemplate
     }
-    
+
+    await transporter.sendMail(mailOptions)
+}
+
+export const sendSummaryEmail = async ({email, date, newsContent}: {
+    email: string;
+    date: string;
+    newsContent: string
+}) => {
+    const htmlTemplate = NEWS_SUMMARY_EMAIL_TEMPLATE
+        .replace(`{{date}}`, date)
+        .replace(`{{newsContent}}`, newsContent)
+
+    const mailOptions = {
+        from: `"Tickrflow News" <sarthaksarangi.dev@gmail.com>`,
+        to: email,
+        subject: `Market News Summary Today - ${date}`,
+        text: `Today's market news summary - Tickrflow`,
+        html: htmlTemplate
+    }
+
     await transporter.sendMail(mailOptions)
 }
