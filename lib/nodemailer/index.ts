@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import {NEWS_SUMMARY_EMAIL_TEMPLATE, WELCOME_EMAIL_TEMPLATE} from "@/lib/nodemailer/templates";
-import {NEWS_SUMMARY_EMAIL_PROMPT} from "@/lib/inngest/prompts";
 
 dotenv.config();
 export const transporter = nodemailer.createTransport(({
