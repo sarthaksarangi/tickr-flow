@@ -14,7 +14,7 @@ import Link from "next/link";
 import {searchStocks} from "@/lib/actions/finhub.actions";
 import {useDebounce} from "@/Hooks/useDebounce";
 
-const SearchCommand = ({renderAs = 'button', label = 'Add stock', initialStocks}) => {
+export const SearchCommand = ({renderAs = 'button', label = 'Add stock', initialStocks}: SearchCommandProps) => {
 
     const [open, setOpen] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
